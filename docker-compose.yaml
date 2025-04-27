@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  ollama:
+    image: ollama/ollama
+    ports:
+      - 11434:11434
+    volumes:
+      - ./:/root/.ollama
+    environment:
+      - OLLAMA_NUM_PARALLEL=5
+      - OLLAMA_KEEP_ALIVE=220m
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - AUTOMATIC1111_BASE_URL=http://stable-diffusion-webui:7860
+    volumes:
+      - ./data/open-webui:/app/backend/data
+    ports:
+      - 8080:8080

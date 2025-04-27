@@ -1,0 +1,9 @@
+[project]
+name = "ai-agent-workshop-202505"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "open-webui>=0.6.5",
+]
