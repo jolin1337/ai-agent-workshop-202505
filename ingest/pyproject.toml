@@ -1,0 +1,14 @@
+[project]
+name = "ingest"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "autorag",
+    "chromadb",
+    "crawl4ai",
+    "llama-index-embeddings-ollama",
+    "llama-index-llms-ollama",
+    "unstructured",
+]

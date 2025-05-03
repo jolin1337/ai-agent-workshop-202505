@@ -34,7 +34,6 @@ Notera att vi rekommenderar att du laddar ner modellerna i förväg på grund av
 - Bygga en agent som använder:
   - Sökverktyg (DuckDuckGo via API)
   - RAG-modul för dokumenthämtning och validering
-  - Git-verktyg för kodhantering
 - Live-kodning och gemensamma övningar
 
 ---
@@ -43,8 +42,10 @@ Notera att vi rekommenderar att du laddar ner modellerna i förväg på grund av
 
 - **Python 3.11+** (hanteras via `uv`)
 - **Ollama** för lokala modeller
-- **FastAPI** för eventuella API-tester
-- **LangChain** för agentstyrning (ev. kompletterat med andra bibliotek)
+- **Open-webui** för tester av modell + RAG
+- **AutoGen** för autonoma agenter
+- **Crawl4AI** för skrapa bolagsverket
+- **AutoRag** för att utvärdera parametrar för din RAG modell
 
 ---
 

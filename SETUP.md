@@ -1,141 +1,94 @@
-Självklart! Här kommer den **översatta svenska versionen** av installationsguiden för din workshop:
+# 🛠️ AI Agent Workshop – Snabbstartguide
+
+Välkommen till **AI Agent Workshop**! Här sätter vi snabbt upp lokala AI-agenter utan molntjänster.
 
 ---
 
-## 🛠️ AI Agent Workshop – Installationsguide (lokal uppsättning)
+## ✅ Systemkrav
 
-Välkommen till **AI Agent Workshop**! Under workshopen kommer du att bygga lokala, integritetsvänliga AI-agenter med hjälp av öppna verktyg och modeller – helt utan moln.
-
-Förbered din dator i förväg enligt stegen nedan så att du är redo att komma igång direkt. Vi kommer gå igenom dessa steg på plats men med tanke på att vi är många och vill undvika hög belastning av nätverk behöver vi ladda ner modellerna innan).
-
----
-
-### TLDR
-
-Jag har förberett två skript som sätter upp allt man behöver för denna workshopen, har man förinstallerat docker kommer dessa installeras i docker. annars lokalt på sin dator. Först ladda ner repot: [https://github.com/jolin1337/ai-agent-workshop-202505.git]() lokalt på din dator där du vill utföra experimentet.
-
-```bash
-# Windows
-> ./setup.windows.sh
-# Linux
-> ./setup.linux.sh
-```
-
-När workshopen är klar eller man vill ta bort allt kan man köra följande skript.
-
-```bash
-# Windows
-> ./cleanup.windows.sh
-# Linux
-> ./cleanup.linux.sh
-```
-
-Nedan följer mer detaljerade instruktioner om man vill förstå vad skripten gör.
-
-### ✅ Systemkrav
-
-#### 💻 Rekommenderad utrustning
-
-- **Processor**: Fyrkärnig Intel/AMD eller Apple Silicon (M1/M2/M3)
-- **RAM**: Minst 16 GB (8 GB fungerar med lättare modeller)
-- **Diskutrymme**: Minst 15–20 GB ledigt
-- **GPU**: Valfritt (NVIDIA kan ge bättre prestanda, men är inte nödvändigt)
+- **Processor**: Intel/AMD fyrkärnig eller Apple Silicon
+- **RAM**: Minst 8–16 GB
+- **Diskutrymme**: Minst 15 GB fritt
 
 ---
 
-### ⚙️ Nödvändig programvara
+## ⚙️ Installera nödvändiga verktyg
 
-#### 1. Docker (är det vi kommer använda för Ollama & ev. openwebui dessa verktyg går även att installera via deras hemsidor separat istället och då behöver ni inte docker heller)
-
-- Ladda ner och installera från: [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
-- Starta Docker och se till att det körs i bakgrunden
-
----
-
-### 📦 Python-miljö med `uv`
-
-Vi använder [`uv`](https://github.com/astral-sh/uv) – en snabbare och mer modern Python-hanterare än `pip`.
-
-#### 1. Installera `uv`
+### 1. Installera `uv` (Python-hanterare)
 
 ```bash
 curl -Ls https://astral.sh/uv/install.sh | sh
 ```
 
-#### 2. Klona workshopens GitHub-repo om detta inte redan gjorts
+### 2. Klona workshop-repot
 
 ```bash
 git clone https://github.com/jolin1337/ai-agent-workshop-202505.git
 cd ai-agent-workshop-202505
 ```
 
-#### 3. Installera beroenden
+### 3. Installera Python-beroenden
 
 ```bash
 uv sync
-uv install
+cd ingest
+uv sync
+cd -
 ```
 
-**4. Ollama tjänsten**
+---
 
-- Pulla ner docker instansen eller installera direct från: [https://ollama.com/download](https://ollama.com/download)
-- Kort kommandot för att installera ollama är: `curl -fsSL https://ollama.com/install.sh | sh`
-- Verifiera installationen (se längre ner i instruktionerna)
+## 🧠 Installera och starta Ollama lokalt
 
-```
-docker compose pull ollama
-```
+### 1. Installera Ollama
 
-**2. Open Webui (enbart introduktion/första delen av workshopen)**
+- Ladda ner från: [https://ollama.com/download](https://ollama.com/download)
 
-- Pulla ner docker instansen eller installera direct från: [https://docs.openwebui.com/#manual-installation](https://docs.openwebui.com/#manual-installation)
-- Verifiera installationen (se längre ner i instruktionerna)
+### 2. Starta Ollama
 
-```
-docker compose pull open-webui
+Starta Ollama via applikationen eller via terminal:
+
+```bash
+ollama serve
 ```
 
-### 🧠 Ladda ner modeller i förväg (viktigaste steget innan workshopen)
-
-Kör följande kommandon i terminalen för att ladda ner modellerna (lägg till en prefix `docker compose run --rm ollama` för varje kommando nedan om ni installerat via docker):
+Alternativt kan du köra min docker compose fil (om du installerat docker på din maskin)
 
 ```
-# Lätt modell – snabb och stabil
+docker compose up -d ollama
+```
+
+Ollama körs nu i bakgrunden och är redo att ta emot förfrågningar.
+
+---
+
+## 📥 Förbered modeller i Ollama
+
+Ladda ner modeller i förväg:
+
+```bash
+# Lättvikt – snabb och effektiv
 ollama run llama3.2:1b
 
-# Lite kraftigare modell – om din dator klarar det
+# Starkare modell (om din dator klarar det)
 ollama run llama3.2:3b
 
-# (Valfritt) Kodspecialiserad modell – större och vassare
+# (Valfritt) Avancerad kodningsmodell
 ollama run qwen2.5-coder:7b
 ```
 
-💾 Varje modell är cirka 3–7 GB. Se till att du laddar ner dem i god tid över ett stabilt nätverk.
+> 💾 Modellerna är 3–7 GB styck. Se till att du laddar ner dem innan workshopen.
 
 ---
 
-### ✅ Testa att allt fungerar
-
-Kör följande kommando för ollama:
+## ✅ Testa Ollama
 
 ```bash
-docker compose up –d ollama
-# eller utan docker
-ollama serve
-
-curl http://localhost:11434/api/tags
+ollama run llama3.2:1b
 ```
 
-Kör följande kommando för open webui:
-
-```bash
-docker compose up –d open-webui
-```
-
-Om du får ett svar från curl kommandot med en lista av de modellerna du angivit ovan är du redo med ollama! Kommer du till en inloggningsida när du går in på [http://localhost:8080](http://localhost:8080/) i din webläsare på samma dator är du redo med open webui!
+Om du får ett svar från modellen är allt redo!
 
 ---
 
-### 🛟 Behöver du hjälp?
-
-Vi har en kort teknisk uppstartsstund i början av workshopen. Men ju mer du förberett innan, desto mer hinner du bygga under sessionen.
+Vi hjälper till på plats om något strular – men ju mer du förberett desto mer kan du fokusera på att bygga!

@@ -5,5 +5,13 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "open-webui>=0.6.5",
+    "autogen-agentchat==0.5.5",
+    "autogen-ext[ollama,openai]>=0.5.5",
+    "autogenstudio>=0.1.5",
+    "mcp>=1.7.0",
+    "mcpo>=0.0.13",
+]
+
+[tool.uv.workspace]
+members = [
 ]
