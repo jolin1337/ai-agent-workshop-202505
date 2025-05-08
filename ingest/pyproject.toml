@@ -7,8 +7,10 @@ requires-python = ">=3.11"
 dependencies = [
     "autorag",
     "chromadb",
-    "crawl4ai",
+    "crawl4ai==0.6.0",
+    "llama-index-embeddings-openai-like",
     "llama-index-embeddings-ollama",
     "llama-index-llms-ollama",
+    "llama-index-llms-openai-like",
     "unstructured",
 ]
