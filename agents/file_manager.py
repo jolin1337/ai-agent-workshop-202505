@@ -1,4 +1,5 @@
 import os
+import textwrap
 import json
 import asyncio
 
@@ -42,14 +43,16 @@ agent = AssistantAgent(
     name="file_manager",
     model_client=model_client,
     tools=tools,
-    system_message="Logga informationen i chat historiken genom att anropa write_file i filen 2025-05-04.",
+    # system_message="Logga informationen i chat historiken genom att anropa write_file i filen 2025-05-04.",
     # handoffs=["facilitator"],
-    #    system_message="""
-    # Du agerar som ett anteckningsstöd och lagrar dina anteckningar i filer.
-    # Lagra all relevant information som givits i filer med relevanta namn.
-    # Är ett namn explicit skrivet använd detta.
-    # Berätta för användaren när du har anropat någon av verktygen och berätta status vad som returnerades.
-    # """,
+    system_message=textwrap.dedent(
+        """
+     Du agerar som ett anteckningsstöd och lagrar dina anteckningar i filer.
+     Lagra all relevant information som givits i filer med relevanta namn.
+     Är ett namn explicit skrivet använd detta.
+     Berätta för användaren när du har anropat någon av verktygen och berätta status vad som returnerades.
+     """.strip()
+    ),
     reflect_on_tool_use=True,
     model_client_stream=True,  # Enable streaming tokens from the model client.
 )

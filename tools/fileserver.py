@@ -12,7 +12,9 @@ server = FastMCP("Filesystem")
 
 # Secure path helper
 def secure_path(path: str) -> str:
-    full_path = os.path.abspath(os.path.join(SANDBOX_FOLDER, path.strip("/")))
+    full_path = os.path.abspath(
+        os.path.join(SANDBOX_FOLDER, os.path.basename(path.strip("/")))
+    )
     if not full_path.startswith(SANDBOX_FOLDER):
         raise ValueError("Access outside sandbox is forbidden.")
     return full_path
