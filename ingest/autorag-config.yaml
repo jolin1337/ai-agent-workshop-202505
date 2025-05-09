@@ -1,0 +1,66 @@
+vectordb:
+  - name: instructor_large
+    db_type: chroma
+    client_type: persistent
+    embedding_model: ollama_nomic
+    #  type: huggingface
+    #  model_name: hkunlp/instructor-large
+    collection_name: instructor_large
+    path: ${PROJECT_DIR}/data/chroma
+node_lines:
+  - node_line_name: retrieve_node_line # Set Node Line (Arbitrary Name)
+    nodes:
+      - node_type: retrieval # Set Retrieval Node
+        strategy:
+          metrics: [
+              retrieval_f1,
+              retrieval_recall,
+              retrieval_ndcg,
+              retrieval_mrr,
+            ] # Set Retrieval Metrics
+        top_k: 3
+        modules:
+          - module_type: vectordb
+            vectordb: instructor_large
+          - module_type: bm25
+          - module_type: hybrid_rrf
+            weight_range: (4,80)
+      - node_type: passage_augmenter
+        strategy:
+          metrics: [retrieval_f1, retrieval_recall, retrieval_precision]
+          speed_threshold: 5
+        embedding_model: ollama_nomic
+        top_k: 6
+        modules:
+          - module_type: pass_passage_augmenter
+          - module_type: prev_next_augmenter
+            mode: next
+          - module_type: prev_next_augmenter
+            mode: prev
+      - node_type: prompt_maker # Set Prompt Maker Node
+        strategy:
+          metrics: # Set Generation Metrics
+            - metric_name: meteor
+            - metric_name: rouge
+            - metric_name: sem_score
+              embedding_model: ollama_nomic
+        modules:
+          - module_type: fstring
+            prompt: "From the given context, what would be the appropriate response to the question? \nContext: {retrieved_contents} \nQuestion: {query} \nAnswer: "
+      - node_type: generator # Set Generator Node
+        strategy:
+          metrics: # Set Generation Metrics
+            - metric_name: meteor
+            - metric_name: rouge
+            - metric_name: sem_score
+              embedding_model: ollama_nomic
+        modules:
+          - module_type: llama_index_llm
+            llm: openailike
+            model: llama3.2:1b
+            #model: qwen2.5-coder:7b
+            temperature: 0.7
+            #api_base: http://10.68.0.247:11434/v1
+            api_base: http://localhost:11434/v1
+            api_key: sk-123
+            batch: 1

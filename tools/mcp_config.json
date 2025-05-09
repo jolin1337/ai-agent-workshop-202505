@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "rag": {
+      "command": "uv",
+      "args": ["run", "mcp", "run", "tools/retriever.py"]
+    },
+    "filesystem": {
+      "command": "uv",
+      "args": ["run", "mcp", "run", "tools/fileserver.py"]
+    },
+    "kvadrat_intern": {
+      "command": "uv",
+      "args": ["run", "mcp", "run", "tools/kvadrat_intern.py"]
+    }
+  }
+}
